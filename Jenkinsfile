@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out code..'
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/gundlarakesh/spring-petclinic.git']])
             }
         }
         stage('Build') {
