@@ -11,17 +11,19 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Building..'
+                echo 'Building Sprint Petclinic..'
+                sh 'mvn clean package -DskipTests'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing Sprint Petclinic..'
+                sh 'mvn test'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying..'
+                echo 'Deploying Sprint Petclinic..' 
             }
         }
     }
