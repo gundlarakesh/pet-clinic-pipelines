@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying Sprint Petclinic..'
-                bat 'java -jar ./target/spring-petclinic-3.5.0-SNAPSHOT.jar --server.port=$PORT'
+                bat 'java -jar ./target/spring-petclinic-3.5.0-SNAPSHOT.jar --server.port=${PORT}'
             }
         }
     }
