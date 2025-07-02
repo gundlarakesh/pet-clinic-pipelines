@@ -6,19 +6,23 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/gundlarakesh/spring-petclinic.git']])
+                checkout scmGit(
+                    branches: [[name: '*/main']], 
+                    extensions: [], 
+                    userRemoteConfigs: [[url: 'https://github.com/gundlarakesh/spring-petclinic.git']]
+                )
             }
         }
         stage('Build') {
             steps {
                 echo 'Building Sprint Petclinic..'
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing Sprint Petclinic..'
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         stage('Deploy') {
