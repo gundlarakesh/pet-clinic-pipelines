@@ -3,6 +3,9 @@ pipeline {
     // triggers {
     //     pollSCM('H/2 * * * *')  // trigger for every 2 minutes (example)
     // }
+    environment {
+        PORT = '9000'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -27,8 +30,16 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying Sprint Petclinic..' 
+                echo 'Deploying Sprint Petclinic..'
+                bat 'java -jar ./target/spring-petclinic-3.5.0-SNAPSHOT.jar --server.port=$PORT'
             }
         }
     }
+    post{ 
+        always {
+            echo 'Cleaning up..'
+            bat 'mvn clean'
+        }
+    }
+
 }
