@@ -35,11 +35,25 @@ pipeline {
             }
         }
     }
-    post{ 
-        always {
-            echo 'Cleaning up..'
-            bat 'mvn clean'
+    post {
+        success {
+            emailext (
+                subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: "Good news! Build succeeded.\n\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}",
+                to: 'rgundla@osidigital.com'
+            )
         }
-    }
+
+        failure {
+            emailext (
+                subject: "❌ FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                body: "Build failed.\n\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}",
+                to: 'rgundla@osidigital.com'
+            )
+        }
+
+        always {
+            echo "Pipeline completed."
+        }
 
 }
