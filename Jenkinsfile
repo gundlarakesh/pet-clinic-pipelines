@@ -43,7 +43,7 @@ pipeline {
                     body: """<p>Build succeeded for <b>${env.JOB_NAME} #${env.BUILD_NUMBER}</b>.</p>
                              <p>Check full log: <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>""",
                     mimeType: 'text/html',
-                    to: 'rgundla@gmail.com'
+                    to: 'rgundla@osidigital.com'
                 )
             }
         }
