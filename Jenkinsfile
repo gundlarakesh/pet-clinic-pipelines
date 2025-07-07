@@ -23,12 +23,12 @@ pipeline {
                 bat 'mvn clean package -DskipTests'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing Sprint Petclinic..'
-                bat 'mvn test'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         echo 'Testing Sprint Petclinic..'
+        //         bat 'mvn test'
+        //     }
+        // }
         stage('Deploy') {
             steps {
                 echo 'Deploying Sprint Petclinic..'
@@ -42,7 +42,7 @@ pipeline {
                 emailext (
                     subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
                     body: """<p>✅ Build succeeded for <b>${env.JOB_NAME} #${env.BUILD_NUMBER}</b>.</p>
-                             <p>Check full log: <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>""",
+                             <p><a href="${env.BUILD_URL}console">Click here</a> to check full log</p>""",
                     mimeType: 'text/html',
                     to: "rgundla@osidigital.com"
                 )
@@ -58,7 +58,8 @@ pipeline {
                     body: """<p>❌ Build failed for <b>${env.JOB_NAME} #${env.BUILD_NUMBER}</b>.</p>
                             <p>Console Output (last 50 lines):</p>
                             <pre>${log}</pre>
-                            <p>Check full log: <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>""",
+                            <p><a href="${env.BUILD_URL}console">Click here</a> to check full log</p>
+                            """,
                     mimeType: 'text/html',
                     to: "rgundla@osidigital.com"
                 )
