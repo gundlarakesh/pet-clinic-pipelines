@@ -40,8 +40,10 @@ pipeline {
             script{
                 emailext (
                     subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                    body: "Good news! Build succeeded.\n\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}",
-                    to: 'rgundla@osidigital.com'
+                    body: """<p>Build succeeded for <b>${env.JOB_NAME} #${env.BUILD_NUMBER}</b>.</p>
+                             <p>Check full log: <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>""",
+                    mimeType: 'text/html',
+                    to: 'rgundla@gmail.com'
                 )
             }
         }
@@ -52,7 +54,7 @@ pipeline {
                 def log = currentBuild.rawBuild.getLog(50).join('\n')
 
                 emailext (
-                    subject: "❌ FAILURE: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                    subject: "❌ FAILURE: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
                     body: """<p>Build failed for <b>${env.JOB_NAME} #${env.BUILD_NUMBER}</b>.</p>
                              <p>Console Output (last 50 lines):</p>
                              <pre>${log}</pre>
