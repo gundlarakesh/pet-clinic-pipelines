@@ -5,10 +5,14 @@ pipeline {
     }
     environment {
         PORT = '9000'
+        START_TIME = ''
     }
     stages {
         stage('Checkout') {
             steps {
+                script {
+                    env.START_TIME = System.currentTimeMillis().toString()
+                }
                 checkout scmGit(
                     branches: [[name: '*/main']], 
                     extensions: [], 
@@ -38,14 +42,16 @@ pipeline {
     post {
         success {
             script {
-                def startTime = new Date(currentBuild.rawBuild.getStartTimeInMillis())
-                def endTime = new Date()
-                def durationMillis = endTime.time - startTime.time
+                def endTime = System.currentTimeMillis()
+                def startTime = env.START_TIME as long
+                def durationMillis = endTime - startTime
+
                 def durationFormatted = String.format('%02d:%02d:%02d',
                     (durationMillis / (1000 * 60 * 60)) as int,
                     (durationMillis / (1000 * 60) % 60) as int,
                     (durationMillis / 1000 % 60) as int
                 )
+
 
                 emailext (
                     subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
@@ -62,14 +68,16 @@ pipeline {
 
         failure {
             script {
-                def startTime = new Date(currentBuild.rawBuild.getStartTimeInMillis())
-                def endTime = new Date()
-                def durationMillis = endTime.time - startTime.time
+                def endTime = System.currentTimeMillis()
+                def startTime = env.START_TIME as long
+                def durationMillis = endTime - startTime
+
                 def durationFormatted = String.format('%02d:%02d:%02d',
                     (durationMillis / (1000 * 60 * 60)) as int,
                     (durationMillis / (1000 * 60) % 60) as int,
                     (durationMillis / 1000 % 60) as int
                 )
+
 
                 def log = currentBuild.rawBuild.getLog(50).join('\n')
 
