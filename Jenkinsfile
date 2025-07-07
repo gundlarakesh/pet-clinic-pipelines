@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    // triggers {
-    //     pollSCM('H/2 * * * *')  // trigger for every 2 minutes (example)
-    // }
+    triggers {
+        pollSCM('H/2 * * * *')  // trigger for every 2 minutes (example)
+    }
     environment {
         PORT = '9000'
     }
